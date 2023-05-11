@@ -1,7 +1,7 @@
 /**
  * @consultarApi; en esta seccion de scripts se resuelve la logica de trabajar
  * con la api de pokemon
-**/
+ **/
 
 const contenedorPokemon = document.getElementById("contenedorPokemon");
 const mochilaPokemon = document.getElementById("mochilaPokemon");
@@ -12,7 +12,7 @@ let mochila = [];
 let anteriorLink = "";
 let siguienteLink = "";
 let inicio = 0;
-let limite = 12;
+let limite = 24;
 let url = `https://pokeapi.co/api/v2/pokemon/?offset=${inicio}&limit=${limite}`;
 
 const api = (url) => {
@@ -68,7 +68,6 @@ const mostrarPokemon = (pokemon) => {
       })
       .catch((error) => console.error(error));
   });
-
 };
 
 // pokemon que van dentro de la mochila (maximo 6)
@@ -83,7 +82,6 @@ const pokemonCapturado = (result) => {
     // renderizo el resultado
     mostrarMochilaPokemon();
     limiteMochila();
-
   } else if (mochila.length >= 6) {
     Toastify({
       text: "Su mochila esta llena",
@@ -96,8 +94,6 @@ const pokemonCapturado = (result) => {
       },
     }).showToast();
   }
-
-
 };
 
 const mostrarMochilaPokemon = () => {
@@ -123,7 +119,6 @@ const mostrarMochilaPokemon = () => {
       eliminarPokemon(pokemon.id)
     );
   });
-
 };
 
 // eliminar pokemon por id
@@ -137,7 +132,6 @@ const eliminarPokemon = (id) => {
   // Actualiza la vista
   mostrarMochilaPokemon();
   limiteMochila();
-
 };
 
 // cantidad mochila
@@ -150,25 +144,23 @@ const limiteMochila = () => {
     : (mochilaLink.innerHTML = `<span style='color:red;'>(${contador})</span>`);
 };
 
-const vaciarMochilaButton = document.getElementById('vaciarMochilaButton')
-vaciarMochilaButton.addEventListener('click', () => vaciarMochila())
+const vaciarMochilaButton = document.getElementById("vaciarMochilaButton");
+vaciarMochilaButton.addEventListener("click", () => vaciarMochila());
 // vaciar mochila
 const vaciarMochila = () => {
-
-  if(mochila.length >= 1) {
+  if (mochila.length >= 1) {
     Swal.fire({
-      title: '¿Realmente quieres liberar a todos tus Pokémon?',
-      icon: 'warning',
+      title: "¿Realmente quieres liberar a todos tus Pokémon?",
+      icon: "warning",
       confirmButtonText: "Si",
       showCancelButton: true,
-    }).then(response => {
-  
-      if(response.isConfirmed) {
-        mochila = []
-        mostrarMochilaPokemon()
-        limiteMochila()
+    }).then((response) => {
+      if (response.isConfirmed) {
+        mochila = [];
+        mostrarMochilaPokemon();
+        limiteMochila();
       }
-    })
+    });
   } else {
     Toastify({
       text: "Tu mochila esta vacia",
@@ -181,11 +173,7 @@ const vaciarMochila = () => {
       },
     }).showToast();
   }
-
-
-
 };
-
 
 // buscador
 formularioBusqueda.addEventListener("submit", (event) => buscarPokemon(event));
@@ -253,8 +241,6 @@ const buscarPokemon = (event) => {
     .catch((error) => console.log(error));
 };
 
-
-
 // paginacion
 anteriorPaginacion.addEventListener("click", () => anterior());
 siguientePaginacion.addEventListener("click", () => siguiente());
@@ -272,5 +258,154 @@ api(url); // pasarle la url x aca
 /**
  * @creadorDePokemon; en esta seccion de scripts se resuelve la logica de crear
  * un pokemon personalizado
-**/
+ **/
 
+// traigo las etiquetas
+const formularioCreador = document.getElementById("formularioCreador");
+const nombreCreador = document.getElementById("nombre");
+const tipoCreador = document.getElementById("tipo");
+const imagenCreador = document.getElementById("imagen");
+
+// class
+class PokemonCreador {
+  constructor(nombre, tipo, imagen) {
+    this.id = `${Math.floor(Math.random() * 1000) + 1}${Date.now()}`;
+    this.nombre = nombre;
+    this.tipo = tipo;
+    this.imagen = imagen;
+  }
+}
+
+let pokemonCreado = [];
+
+// instnacion y creo pokemon dinamico
+formularioCreador.addEventListener("submit", (e) => crearPokemon(e));
+
+const crearPokemon = (e) => {
+  e.preventDefault();
+
+  const pokemonNuevo = new PokemonCreador(
+    nombreCreador.value,
+    tipoCreador.value,
+    imagenCreador.value
+  );
+  pokemonCreado.push(pokemonNuevo);
+
+  // renderizo
+  tusCreaciones();
+};
+
+// muestro los pokemon creados en 'tus creaciones'
+const listarPokeAmigos = document.getElementById("listarPokeAmigos");
+
+const tusCreaciones = () => {
+  listarPokeAmigos.innerHTML = "";
+
+  pokemonCreado.forEach((pokemon) => {
+    const div = document.createElement("div");
+    div.innerHTML += `pokeamigo: <img src="${pokemon.imagen}" alt="${pokemon.nombre}" > - ${pokemon.tipo} - ${pokemon.nombre} - <button id="liberarPokeAmigoBtn${pokemon.id}">Liberar</button> - 
+    <button data-bs-toggle="modal" data-bs-target="#editarModal" id="editarPokeAmigoBtn${pokemon.id}">Editar</button>`;
+
+    listarPokeAmigos.appendChild(div);
+
+    // liberar pokeamigo
+    const liberarPokeAmigoBtn = document.getElementById(
+      `liberarPokeAmigoBtn${pokemon.id}`
+    );
+    liberarPokeAmigoBtn.addEventListener("click", () =>
+      liberarPokeAmigo(pokemon.id)
+    );
+
+    // editar pokeamigo
+    const editarPokeAmigoBtn = document.getElementById(
+      `editarPokeAmigoBtn${pokemon.id}`
+    );
+    editarPokeAmigoBtn.addEventListener("click", () =>
+      editarPokeAmigo(pokemon.id)
+    );
+  });
+};
+
+// libierar pokemon amigo
+const liberarPokeAmigo = (id) => {
+  let liberar = pokemonCreado.filter((pokemon) => pokemon.id !== id);
+  pokemonCreado = liberar;
+
+  //render
+  tusCreaciones();
+};
+
+// editar pokemon amigo
+const editarPokeAmigo = (id) => {
+  let editar = pokemonCreado.find((pokemon) => pokemon.id === id);
+
+  // creo un modal dinamico
+  let divModal = document.createElement("div");
+  divModal.innerHTML = `
+        <div
+        class="modal fade"
+        id="editarModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                ⚙ Edita tu Pokeamigo
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body text-center" id="creadorPokemon">
+              <form action="" id="formularioCreador">
+                <input type="text" placeholder="nombre" id="nombre" value="${editar.nombre}" /> <br />
+                <input type="text" placeholder="tipo" id="tipo" value="${editar.tipo}" /> <br />
+                <input type="text" placeholder="imagen" id="imagen" value="${editar.imagen}" />
+                <button
+                  type="submit"
+                  class="btn btn-primary w-100"
+                  data-bs-dismiss="modal"
+                  id="editarPokeAmigoBtn${editar.id}"
+                >
+                  Editar
+                </button>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>`;
+  contenedorPokemon.appendChild(divModal);
+
+  const nombreEdit = document.getElementById("nombre");
+  const tipoEdit = document.getElementById("tipo");
+  const imagenEdit = document.getElementById("imagen");
+
+  let loEdito = document.getElementById(`editarPokeAmigoBtn${editar.id}`);
+  loEdito.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  console.log(editar)
+
+
+    editar.nombre = nombreEdit.value;
+    editar.tipo = tipoEdit.value;
+    editar.imagen = imagenEdit.value;
+
+    
+    // render
+    tusCreaciones();
+
+
+  });
+
+
+};
+
+tusCreaciones();

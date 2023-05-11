@@ -43,11 +43,22 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" data-bs-toggle="modal"
-                data-bs-target="#creadorModal">Creador</a>
+                <a
+                  class="nav-link"
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#creadorModal"
+                  >Creador</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Tus creaciones (1)</a>
+                <a
+                  class="nav-link"
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#tuCreacionModal"
+                  >Tus creaciones (1)</a
+                >
               </li>
               <li class="nav-item">
                 <a
@@ -120,9 +131,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              🎒 Mochila
-            </h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">🎒 Mochila</h1>
             <button
               type="button"
               class="btn-close"
@@ -172,7 +181,123 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body text-center" id="mochilaPokemon"></div>
+          <div class="modal-body text-center" id="creadorPokemon">
+            <form action="" id="formularioCreador">
+              <div class="form-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombre"
+                  placeholder="Nombre"
+                />
+              </div>
+
+              <div class="form-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="tipo"
+                  placeholder="Tipo"
+                />
+              </div>
+
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="imagen"
+                  placeholder="Imagen"
+                />
+                <span class="input-group-text">
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#indicaciones">❓</a>
+                </span>
+              </div>
+              <div class="form-group mb-3">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
+                  Crear
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                >
+                  Salir
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de pokemon creados-->
+    <div
+      class="modal fade"
+      id="tuCreacionModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              💖 Tus Pokeamigo
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-center" id="listarPokeAmigos"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary w-100"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger w-100"
+              data-bs-dismiss="modal"
+            >
+              Vaciar mochila (mostrar alert con swalt)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de indicaciones-->
+    <div
+      class="modal fade"
+      id="indicaciones"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              📚 Como subir la imagen
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-center" id="listarPokeAmigos"></div>
           <div class="modal-footer">
             <button
               type="button"
