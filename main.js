@@ -35,23 +35,21 @@ const mostrarPokemon = (pokemon) => {
     fetch(poke.url)
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
-
         const div = document.createElement("div");
         div.innerHTML = `
             <div class="card mb-3" style="width: 18rem">
-              <img src="${result.sprites.front_default}" class="card-img-top" alt="imagen del pokemon ${poke.name}" />
+              <img src="${result.sprites.front_default}" class="card-img-top" alt="imagen del pokemon ${result.name}" />
               <div class="card-body">
-                <h5 class="card-title">${poke.name}</h5>
+                <h5 class="card-title">${result.name}</h5>
                 <div class="card-text">
                   <ul>
-                    <li>Type: Fire</li>
-                    <li>Type: Fire</li>
-                    <li>Type: Fire</li>
-                    <li>Type: Fire</li>
+                    <li><strong class="text-muted">#</strong>${result.id}</li>
+                    <li><strong class="text-muted">Type:</strong> ${result.types[0].type.name}</li>
+                    <li><strong class="text-muted">Height:</strong> ${result.height}</li>
+                    <li><strong class="text-muted">Weight:</strong> ${result.weight}</li>
                   </ul>
                 </div>
-                <a href="#" class="btn btn-primary w-100" id="capturarPokemon${result.id}"
+                <a href="javascript:void(0)" class="btn btn-primary w-100" id="capturarPokemon${result.id}"
                   >Capturar Pokemon</a
                 >
               </div>
@@ -75,7 +73,7 @@ const pokemonCapturado = (result) => {
   // comrpuebo si ese ID existe en mi mochila
   const pokemon = mochila.find((mochi) => mochi.id === result.id);
 
-  // si nmo existe en la mochila lo guardo y solo puedo tener en mi mochila 6 poke
+  // si no existe en la mochila lo guardo y solo puedo tener en mi mochila 6 poke
   if (!pokemon && mochila.length < 6) {
     mochila.push(result);
 
@@ -103,9 +101,9 @@ const mostrarMochilaPokemon = () => {
     const div = document.createElement("div");
     div.innerHTML = `
         <img src=${pokemon?.sprites?.versions?.["generation-v"]?.["black-white"]?.animated?.front_default}>
+        <strong class="text-muted">#${pokemon?.id}</strong> ❘
         <strong class="text-muted">${pokemon?.name}</strong> ❘
-        <strong class="text-muted">${pokemon?.name}</strong> ❘
-        <strong class="text-muted">${pokemon?.name}</strong>
+        <strong class="text-muted">${pokemon?.types[0].type.name}</strong> 
         <button class="btn btn-danger btn-sm" id="eliminarPokemon${pokemon.id}">Liberar</button>
         <hr>
     `;
@@ -121,17 +119,25 @@ const mostrarMochilaPokemon = () => {
   });
 };
 
+const verificarMochilaVacia = () => {
+  if (mochila.length === 0) {
+    mochilaPokemon.innerHTML =
+      "!Mochila vacía. Ve a capturar Pokemon. Recuerda que tienes 6 Pokebolas disponibles!";
+  }
+};
+
 // eliminar pokemon por id
 const eliminarPokemon = (id) => {
-  // Crea un nuevo array que excluya al pokemon con el id especificado
+  // crea un nuevo array que excluya al pokemon con el id especificado
   const nuevaMochila = mochila.filter((poke) => poke.id !== id);
 
-  // Asigna la nueva mochila a la variable mochila
+  // asigna la nueva mochila a la variable mochila
   mochila = nuevaMochila;
 
-  // Actualiza la vista
+  // renders
   mostrarMochilaPokemon();
   limiteMochila();
+  verificarMochilaVacia();
 };
 
 // cantidad mochila
@@ -146,6 +152,7 @@ const limiteMochila = () => {
 
 const vaciarMochilaButton = document.getElementById("vaciarMochilaButton");
 vaciarMochilaButton.addEventListener("click", () => vaciarMochila());
+
 // vaciar mochila
 const vaciarMochila = () => {
   if (mochila.length >= 1) {
@@ -159,6 +166,7 @@ const vaciarMochila = () => {
         mochila = [];
         mostrarMochilaPokemon();
         limiteMochila();
+        verificarMochilaVacia();
       }
     });
   } else {
@@ -186,9 +194,6 @@ const buscarPokemon = (event) => {
 
   fetch(url)
     .then((response) => {
-      //  console.log('result.status', response.status)
-      //  console.log('result.ok', response.ok)
-
       if (!response.ok || response.status === 404) {
         Swal.fire({
           title: "Error!",
@@ -217,22 +222,23 @@ const buscarPokemon = (event) => {
         mostrarPokemon(result);
       } else {
         contenedorPokemon.innerHTML = `
-        <div class="card mx-auto h-100" style="width: 18rem">
-        <img src="${result.sprites.front_default}" class="card-img-top h-75" alt="imagen del pokemon ${result.name}" />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">${result.name}</h5>
-          <div class="card-text">
-            <ul>
-              <li>Type: Fire</li>
-              <li>Type: Fire</li>
-              <li>Type: Fire</li>
-              <li>Type: Fire</li>
-            </ul>
+        <div class="card mx-auto w-100">
+          <div class="d-flex mx-auto">
+            <img src="${result.sprites.other.home.front_default}" class="card-img-top" alt="imagen del pokemon ${result.name}" />
           </div>
-          <a href="javascript:history.back()" class="btn btn-success mt-auto" ">VOLVER</a>
-        </div>
-      </div>
-      `;
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">${result.name}</h5>
+            <div class="card-text">
+              <ul>
+                <li><strong class="text-muted">#</strong>${result.id}</li>
+                <li><strong class="text-muted">Type:</strong> ${result.types[0].type.name}</li>
+                <li><strong class="text-muted">Height:</strong> ${result.height}</li>
+                <li><strong class="text-muted">Weight:</strong> ${result.weight}</li>
+              </ul>
+            </div>
+            <a href="javascript:history.back()" class="btn btn-success mt-auto">VOLVER</a>
+          </div>
+        </div>`;
 
         anteriorPaginacion.style.display = "none";
         siguientePaginacion.style.display = "none";
@@ -253,7 +259,7 @@ const siguiente = () => {
   api(siguienteLink);
 };
 
-api(url); // pasarle la url x aca
+api(url);
 
 /**
  * @creadorDePokemon; en esta seccion de scripts se resuelve la logica de crear
@@ -269,7 +275,7 @@ const imagenCreador = document.getElementById("imagen");
 // class
 class PokemonCreador {
   constructor(nombre, tipo, imagen) {
-    this.id = `${Math.floor(Math.random() * 1000) + 1}${Date.now()}`;
+    this.id = parseInt(`${Math.floor(Math.random() * 1000) + 1}${Date.now()}`);
     this.nombre = nombre;
     this.tipo = tipo;
     this.imagen = imagen;
@@ -284,46 +290,109 @@ formularioCreador.addEventListener("submit", (e) => crearPokemon(e));
 const crearPokemon = (e) => {
   e.preventDefault();
 
-  const pokemonNuevo = new PokemonCreador(
-    nombreCreador.value,
-    tipoCreador.value,
-    imagenCreador.value
-  );
-  pokemonCreado.push(pokemonNuevo);
+  // valido campos vacios
+  if (
+    nombreCreador.value == "" ||
+    tipoCreador.value == "" ||
+    imagenCreador.value == ""
+  ) {
+    Toastify({
+      text: "Debe rellenar todos los campos",
+      duration: 3000,
+      close: true,
+      className: "info",
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        fontWeight: "900",
+      },
+    }).showToast();
+  } else {
+    const pokemonNuevo = new PokemonCreador(
+      nombreCreador.value,
+      tipoCreador.value,
+      imagenCreador.value
+    );
 
-  // renderizo
-  tusCreaciones();
+    // agregar el nuevo Pokémon
+    pokemonCreado.push(pokemonNuevo);
+
+    // reiniciar el formulario
+    formularioCreador.reset();
+
+    // render
+    tusCreaciones();
+
+    // cierro modal automaticamente
+    const creadorModal = document.getElementById("creadorModal");
+    const modal = bootstrap.Modal.getInstance(creadorModal);
+    modal.hide();
+  }
 };
 
 // muestro los pokemon creados en 'tus creaciones'
 const listarPokeAmigos = document.getElementById("listarPokeAmigos");
 
 const tusCreaciones = () => {
-  listarPokeAmigos.innerHTML = "";
+  if (pokemonCreado.length <= 6) {
+    listarPokeAmigos.innerHTML = "";
 
-  pokemonCreado.forEach((pokemon) => {
-    const div = document.createElement("div");
-    div.innerHTML += `pokeamigo: <img src="${pokemon.imagen}" alt="${pokemon.nombre}" > - ${pokemon.tipo} - ${pokemon.nombre} - <button id="liberarPokeAmigoBtn${pokemon.id}">Liberar</button> - 
-    <button data-bs-toggle="modal" data-bs-target="#editarModal" id="editarPokeAmigoBtn${pokemon.id}">Editar</button>`;
+    pokemonCreado.forEach((pokemon) => {
+      const div = document.createElement("div");
 
-    listarPokeAmigos.appendChild(div);
+      //'./img/imagen_predefinida.jpg'
 
-    // liberar pokeamigo
-    const liberarPokeAmigoBtn = document.getElementById(
-      `liberarPokeAmigoBtn${pokemon.id}`
-    );
-    liberarPokeAmigoBtn.addEventListener("click", () =>
-      liberarPokeAmigo(pokemon.id)
-    );
+      div.innerHTML += `
+        <div class="mb-3">
+          <img src="${pokemon?.imagen}" alt="${pokemon.nombre}" style="width: 5rem; height: 5rem;" /> | 
+          <strong class="text-muted">${pokemon.tipo}</strong> | 
+          <strong class="text-muted">${pokemon.nombre}</strong>
+          <button data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#editarModal" id="editarPokeAmigoBtn${pokemon.id}">Editar</button>
+          <button class="btn btn-danger" id="liberarPokeAmigoBtn${pokemon.id}">Liberar</button>
+        </div>`;
+      listarPokeAmigos.appendChild(div);
 
-    // editar pokeamigo
-    const editarPokeAmigoBtn = document.getElementById(
-      `editarPokeAmigoBtn${pokemon.id}`
-    );
-    editarPokeAmigoBtn.addEventListener("click", () =>
-      editarPokeAmigo(pokemon.id)
-    );
-  });
+      // liberar pokeamigo
+      const liberarPokeAmigoBtn = document.getElementById(
+        `liberarPokeAmigoBtn${pokemon.id}`
+      );
+      liberarPokeAmigoBtn.addEventListener("click", () =>
+        liberarPokeAmigo(pokemon.id)
+      );
+
+      // editar pokeamigo
+      const editarPokeAmigoBtn = document.getElementById(
+        `editarPokeAmigoBtn${pokemon.id}`
+      );
+      editarPokeAmigoBtn.addEventListener("click", () =>
+        editarPokeAmigo(pokemon.id)
+      );
+    });
+
+    limiteCreacion();
+  } else {
+    Toastify({
+      text: "Solo puedes crear hasta 6 PokeAmigos",
+      duration: 3000,
+      close: true,
+      className: "info",
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        fontWeight: "900",
+      },
+    }).showToast();
+  }
+};
+
+// cantidad creacion
+const limiteCreacion = () => {
+  const limiteCreacionMochila = document.getElementById(
+    "limiteCreacionMochila"
+  );
+  let contador = pokemonCreado.length;
+
+  contador < 6
+    ? (limiteCreacionMochila.innerHTML = `(${contador})`)
+    : (limiteCreacionMochila.innerHTML = `<span style='color:red;'>(${contador})</span>`);
 };
 
 // libierar pokemon amigo
@@ -337,75 +406,73 @@ const liberarPokeAmigo = (id) => {
 
 // editar pokemon amigo
 const editarPokeAmigo = (id) => {
-  let editar = pokemonCreado.find((pokemon) => pokemon.id === id);
+  const editar = pokemonCreado.find((pokemon) => pokemon.id === id);
 
-  // creo un modal dinamico
-  let divModal = document.createElement("div");
+  const formularioEditor = document.getElementById("formularioEditor");
+  formularioEditor.innerHTML = "";
+
+  // crear inputs dinamicos
+  const divModal = document.createElement("div");
   divModal.innerHTML = `
-        <div
-        class="modal fade"
-        id="editarModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
+    <div class="form-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="nombre${editar.nombre}"
+        value="${editar.nombre}"
+      />
+    </div>
+    <div class="form-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="tipo${editar.tipo}" 
+        value="${editar.tipo}"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="imagen${editar.imagen}" 
+        value="${editar.imagen}"
+      />
+      
+    </div>
+      <div class="form-group mb-3">
+      <button
+        type="button"
+        class="btn btn-primary w-100"
+        data-bs-dismiss="modal"
+        id="editarPokeAmigoBtn"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
-                ⚙ Edita tu Pokeamigo
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body text-center" id="creadorPokemon">
-              <form action="" id="formularioCreador">
-                <input type="text" placeholder="nombre" id="nombre" value="${editar.nombre}" /> <br />
-                <input type="text" placeholder="tipo" id="tipo" value="${editar.tipo}" /> <br />
-                <input type="text" placeholder="imagen" id="imagen" value="${editar.imagen}" />
-                <button
-                  type="submit"
-                  class="btn btn-primary w-100"
-                  data-bs-dismiss="modal"
-                  id="editarPokeAmigoBtn${editar.id}"
-                >
-                  Editar
-                </button>
-              </form>
-            </div>
-            
-          </div>
-        </div>
-      </div>`;
-  contenedorPokemon.appendChild(divModal);
+        Editar
+      </button>
+    </div>
+  `;
+  formularioEditor.appendChild(divModal);
 
-  const nombreEdit = document.getElementById("nombre");
-  const tipoEdit = document.getElementById("tipo");
-  const imagenEdit = document.getElementById("imagen");
+  const nombreEdit = document.getElementById(`nombre${editar.nombre}`);
+  const tipoEdit = document.getElementById(`tipo${editar.tipo}`);
+  const imagenEdit = document.getElementById(`imagen${editar.imagen}`);
 
-  let loEdito = document.getElementById(`editarPokeAmigoBtn${editar.id}`);
-  loEdito.addEventListener("click", (e) => {
-  e.preventDefault();
+  formularioEditor.addEventListener("click", () => {
+    const index = pokemonCreado.find((pokemon) => pokemon.id === id);
 
-  console.log(editar)
+    // actualizar las propiedades del objeto
+    index.nombre = nombreEdit.value;
+    index.tipo = tipoEdit.value;
+    index.imagen = imagenEdit.value;
 
-
-    editar.nombre = nombreEdit.value;
-    editar.tipo = tipoEdit.value;
-    editar.imagen = imagenEdit.value;
-
-    
     // render
     tusCreaciones();
-
-
   });
-
-
 };
 
-tusCreaciones();
+// renders
+const inicializador = () => {
+  tusCreaciones();
+  verificarMochilaVacia();
+};
+
+inicializador();

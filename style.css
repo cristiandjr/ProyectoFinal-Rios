@@ -16,7 +16,11 @@ body {
     rgba(21, 0, 255, 1) 100%
   );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fffc0b",endColorstr="#1500ff",GradientType=1);
+  overflow: none;
+  scroll-behavior: none;
+
 }
+
 header {
   margin-bottom: 100px;
 }
