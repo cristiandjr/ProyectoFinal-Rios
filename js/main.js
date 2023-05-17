@@ -548,6 +548,12 @@ const editarPokeAmigo = (id) => {
       index.tipo = tipoEdit.value;
       index.imagen = imagenEdit.value;
 
+      // convierto a string la pokemonCreado para guardar la actualizacion de la misma en el LS
+      let actualizoCreadorEditarLS = JSON.stringify(pokemonCreado); 
+
+      // guardo los valores actualizados en el LS
+      localStorage.setItem("creadorPokemonLS", actualizoCreadorEditarLS);
+
       // render
       tusCreaciones();
     }
