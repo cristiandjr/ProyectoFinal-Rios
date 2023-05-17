@@ -510,7 +510,7 @@ const editarPokeAmigo = (id) => {
         type="button"
         class="btn btn-primary w-100"
         data-bs-dismiss="modal"
-        id="editarPokeAmigoBtn"
+        id="editarPokeAmigoBtn${editar.id}"
       >
         Editar
       </button>
