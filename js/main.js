@@ -15,6 +15,7 @@ let inicio = 0;
 let limite = 24;
 let url = `https://pokeapi.co/api/v2/pokemon/?offset=${inicio}&limit=${limite}`;
 
+
 const api = (url) => {
   // pasarle la url x aca
   fetch(url)
@@ -77,6 +78,9 @@ const pokemonCapturado = (result) => {
   if (!pokemon && mochila.length < 6) {
     mochila.push(result);
 
+    // guardo en LS
+    localStorage.setItem('mochilaPokemonLS', JSON.stringify(mochila));
+
     // renderizo el resultado
     mostrarMochilaPokemon();
     limiteMochila();
@@ -119,6 +123,7 @@ const mostrarMochilaPokemon = () => {
   });
 };
 
+
 const verificarMochilaVacia = () => {
   if (mochila.length === 0) {
     mochilaPokemon.innerHTML =
@@ -133,6 +138,13 @@ const eliminarPokemon = (id) => {
 
   // asigna la nueva mochila a la variable mochila
   mochila = nuevaMochila;
+
+  // lo convierto a string para guardar la actualizacion de la mochila en el LS
+  let actualizoMochilaLS = JSON.stringify(mochila);
+
+  // guardo los valores actualizados en el LS
+  localStorage.setItem('mochilaPokemonLS', actualizoMochilaLS);
+
 
   // renders
   mostrarMochilaPokemon();
@@ -164,11 +176,14 @@ const vaciarMochila = () => {
     }).then((response) => {
       if (response.isConfirmed) {
         mochila = [];
+        localStorage.clear() //elimina los datos almacenados en localStorage
         mostrarMochilaPokemon();
         limiteMochila();
         verificarMochilaVacia();
       }
     });
+
+
   } else {
     Toastify({
       text: "Tu mochila ya esta vacia",
@@ -258,6 +273,13 @@ const anterior = () => {
 const siguiente = () => {
   api(siguienteLink);
 };
+
+// LS mochila, compruebo si hay un objeto almacenado en el "localStorage" con la clave "mochilaPokemon".
+if(localStorage.getItem("mochilaPokemonLS")){
+  mochila = JSON.parse(localStorage.getItem("mochilaPokemonLS"));
+  mostrarMochilaPokemon();
+  limiteMochila();
+}
 
 api(url);
 
@@ -498,14 +520,13 @@ const editarPokeAmigo = (id) => {
   const tipoEdit = document.getElementById(`tipo${editar.tipo}`);
   const imagenEdit = document.getElementById(`imagen${editar.imagen}`);
 
+  formularioEditor.addEventListener("click", () => {
 
-  formularioEditor.addEventListener("click", (e) => {
-
-    // valido campos vacios
+  // valido campos vacios
   if (
-    nombreEdit.value == "" && nombreEdit.value.length == 0 ||
-    tipoEdit.value == "" && tipoEdit.value.length == 0 ||
-    imagenEdit.value == "" && imagenEdit.value.length == 0 
+    !nombreEdit.value.length == 0 ||
+    tipoEdit.value.length == 0 ||
+    imagenEdit.value.length == 0 
   ) {
     Toastify({
       text: "Debe rellenar todos los campos",
@@ -518,6 +539,7 @@ const editarPokeAmigo = (id) => {
       },
     }).showToast();
   } else {
+    
     const index = pokemonCreado.find((pokemon) => pokemon.id === id);
 
     // actualizo las props del obj
