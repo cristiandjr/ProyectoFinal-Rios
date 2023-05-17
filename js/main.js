@@ -15,7 +15,6 @@ let inicio = 0;
 let limite = 24;
 let url = `https://pokeapi.co/api/v2/pokemon/?offset=${inicio}&limit=${limite}`;
 
-
 const api = (url) => {
   // pasarle la url x aca
   fetch(url)
@@ -79,7 +78,7 @@ const pokemonCapturado = (result) => {
     mochila.push(result);
 
     // guardo en LS
-    localStorage.setItem('mochilaPokemonLS', JSON.stringify(mochila));
+    localStorage.setItem("mochilaPokemonLS", JSON.stringify(mochila));
 
     // renderizo el resultado
     mostrarMochilaPokemon();
@@ -123,7 +122,6 @@ const mostrarMochilaPokemon = () => {
   });
 };
 
-
 const verificarMochilaVacia = () => {
   if (mochila.length === 0) {
     mochilaPokemon.innerHTML =
@@ -139,12 +137,11 @@ const eliminarPokemon = (id) => {
   // asigna la nueva mochila a la variable mochila
   mochila = nuevaMochila;
 
-  // lo convierto a string para guardar la actualizacion de la mochila en el LS
+  // convierto a string la mochila para guardar la actualizacion de la misma en el LS
   let actualizoMochilaLS = JSON.stringify(mochila);
 
   // guardo los valores actualizados en el LS
-  localStorage.setItem('mochilaPokemonLS', actualizoMochilaLS);
-
+  localStorage.setItem("mochilaPokemonLS", actualizoMochilaLS);
 
   // renders
   mostrarMochilaPokemon();
@@ -176,14 +173,12 @@ const vaciarMochila = () => {
     }).then((response) => {
       if (response.isConfirmed) {
         mochila = [];
-        localStorage.clear() //elimina los datos almacenados en localStorage
+        localStorage.removeItem('mochilaPokemonLS'); // vacio los datos almacenados en LS
         mostrarMochilaPokemon();
         limiteMochila();
         verificarMochilaVacia();
       }
     });
-
-
   } else {
     Toastify({
       text: "Tu mochila ya esta vacia",
@@ -275,7 +270,7 @@ const siguiente = () => {
 };
 
 // LS mochila, compruebo si hay un objeto almacenado en el "localStorage" con la clave "mochilaPokemon".
-if(localStorage.getItem("mochilaPokemonLS")){
+if (localStorage.getItem("mochilaPokemonLS")) {
   mochila = JSON.parse(localStorage.getItem("mochilaPokemonLS"));
   mostrarMochilaPokemon();
   limiteMochila();
@@ -296,7 +291,7 @@ const imagenCreador = document.getElementById("imagen");
 
 // class
 class PokemonCreador {
-  constructor(nombre, tipo, imagen = './img/imagen_predefinida.jpg') {
+  constructor(nombre, tipo, imagen = "./img/imagen_predefinida.jpg") {
     this.id = parseInt(`${Math.floor(Math.random() * 1000) + 1}${Date.now()}`);
     this.nombre = nombre;
     this.tipo = tipo;
@@ -329,7 +324,6 @@ const crearPokemon = (e) => {
       },
     }).showToast();
   } else {
-
     const pokemonNuevo = new PokemonCreador(
       nombreCreador.value,
       tipoCreador.value,
@@ -338,6 +332,9 @@ const crearPokemon = (e) => {
 
     // agregar el nuevo Pokémon
     pokemonCreado.push(pokemonNuevo);
+
+    // guardo en LS
+    localStorage.setItem("creadorPokemonLS", JSON.stringify(pokemonCreado));
 
     // reiniciar el formulario
     formularioCreador.reset();
@@ -356,7 +353,6 @@ const crearPokemon = (e) => {
 const listarPokeAmigos = document.getElementById("listarPokeAmigos");
 
 const tusCreaciones = () => {
-
   if (pokemonCreado.length <= 6) {
     listarPokeAmigos.innerHTML = "";
 
@@ -364,7 +360,9 @@ const tusCreaciones = () => {
       const div = document.createElement("div");
 
       // valido que la img que no venga vacia, si no le doy x default una (mejorar logica)
-      let img = pokemon.imagen.includes('https') ? pokemon.imagen : './img/imagen_predefinida.jpg';
+      let img = pokemon.imagen.includes("https")
+        ? pokemon.imagen
+        : "./img/imagen_predefinida.jpg";
 
       div.innerHTML += `
         <div class="mb-3">
@@ -425,10 +423,15 @@ const liberarPokeAmigo = (id) => {
   let liberar = pokemonCreado.filter((pokemon) => pokemon.id !== id);
   pokemonCreado = liberar;
 
+  // convierto a string la pokemonCreado para guardar la actualizacion de la misma en el LS
+  let actualizoCreadorLS = JSON.stringify(pokemonCreado);
+
+  // guardo los valores actualizados en el LS
+  localStorage.setItem("creadorPokemonLS", actualizoCreadorLS);
+
   //render
   tusCreaciones();
-  verificarCreadorVacio()
-
+  verificarCreadorVacio();
 };
 
 // vaciar creador
@@ -445,8 +448,9 @@ const vaciarCreador = () => {
     }).then((response) => {
       if (response.isConfirmed) {
         pokemonCreado = [];
-        limiteCreacion()
-        verificarCreadorVacio()
+        localStorage.removeItem('creadorPokemonLS'); // vacio los datos almacenados en LS
+        limiteCreacion();
+        verificarCreadorVacio();
       }
     });
   } else {
@@ -465,7 +469,6 @@ const vaciarCreador = () => {
 
 // editar pokemon amigo
 const editarPokeAmigo = (id) => {
-
   // busco por ID
   const editar = pokemonCreado.find((pokemon) => pokemon.id === id);
 
@@ -521,36 +524,33 @@ const editarPokeAmigo = (id) => {
   const imagenEdit = document.getElementById(`imagen${editar.imagen}`);
 
   formularioEditor.addEventListener("click", () => {
+    // valido campos vacios
+    if (
+      nombreEdit.value.length == 0 ||
+      tipoEdit.value.length == 0 ||
+      imagenEdit.value.length == 0
+    ) {
+      Toastify({
+        text: "Debe rellenar todos los campos",
+        duration: 3000,
+        close: true,
+        className: "info",
+        style: {
+          background: "linear-gradient(to right, red, #96c93d)",
+          fontWeight: "900",
+        },
+      }).showToast();
+    } else {
+      const index = pokemonCreado.find((pokemon) => pokemon.id === id);
 
-  // valido campos vacios
-  if (
-    !nombreEdit.value.length == 0 ||
-    tipoEdit.value.length == 0 ||
-    imagenEdit.value.length == 0 
-  ) {
-    Toastify({
-      text: "Debe rellenar todos los campos",
-      duration: 3000,
-      close: true,
-      className: "info",
-      style: {
-        background: "linear-gradient(to right, red, #96c93d)",
-        fontWeight: "900",
-      },
-    }).showToast();
-  } else {
-    
-    const index = pokemonCreado.find((pokemon) => pokemon.id === id);
+      // actualizo las props del obj
+      index.nombre = nombreEdit.value;
+      index.tipo = tipoEdit.value;
+      index.imagen = imagenEdit.value;
 
-    // actualizo las props del obj
-    index.nombre = nombreEdit.value;
-    index.tipo = tipoEdit.value;
-    index.imagen = imagenEdit.value;
-
-    // render
-    tusCreaciones();
-  }
-
+      // render
+      tusCreaciones();
+    }
   });
 };
 
@@ -561,11 +561,16 @@ const verificarCreadorVacio = () => {
   }
 };
 
+// LS para creador, compruebo si hay un objeto almacenado en el "localStorage" con la clave "creadorPokemon".
+if (localStorage.getItem("creadorPokemonLS")) {
+  pokemonCreado = JSON.parse(localStorage.getItem("creadorPokemonLS"));
+}
+
 // renders
 const inicializador = () => {
   tusCreaciones();
   verificarMochilaVacia();
-  verificarCreadorVacio()
+  verificarCreadorVacio();
 };
 
 inicializador();
