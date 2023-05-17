@@ -307,6 +307,7 @@ const crearPokemon = (e) => {
       },
     }).showToast();
   } else {
+
     const pokemonNuevo = new PokemonCreador(
       nombreCreador.value,
       tipoCreador.value,
@@ -340,19 +341,8 @@ const tusCreaciones = () => {
     pokemonCreado.forEach((pokemon) => {
       const div = document.createElement("div");
 
-
       // valido que la img que no venga vacia, si no le doy x default una (mejorar logica)
-      let img;
-      if (pokemon?.imagen) {
-        img = pokemon.imagen.includes('https') ? pokemon.imagen : './img/imagen_predefinida.jpg';
-      } else {
-        img = './img/imagen_predefinida.jpg';
-      }
-
-      // limpio txt
-      pokemon.nombre.replace(/[^\w\s]/gi, '');
-      pokemon.tipo.replace(/[^\w\s]/gi, '');
-      img.replace(/[^\w\s]/gi, '');
+      let img = pokemon.imagen.includes('https') ? pokemon.imagen : './img/imagen_predefinida.jpg';
 
       div.innerHTML += `
         <div class="mb-3">
