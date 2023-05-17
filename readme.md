@@ -1,8 +1,7 @@
 # Entrega final JS
 
-REPO: https://github.com/cristiandjr/ProyectoFinal-Rios
-
-LIVE: https://cristiandjr.github.io/ProyectoFinal-Rios/
+- REPO: https://github.com/cristiandjr/ProyectoFinal-Rios
+- LIVE: https://cristiandjr.github.io/ProyectoFinal-Rios/
 
 ## Objetivos de la entrega
 
