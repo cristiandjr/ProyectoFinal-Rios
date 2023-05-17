@@ -87,7 +87,7 @@ const pokemonCapturado = (result) => {
       close: true,
       className: "info",
       style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        background: "linear-gradient(to right, red, #96c93d)",
         fontWeight: "900",
       },
     }).showToast();
@@ -214,7 +214,7 @@ const buscarPokemon = (event) => {
           close: true,
           className: "info",
           style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
+            background: "linear-gradient(to right, red, #96c93d)",
             fontWeight: "900",
           },
         }).showToast();
@@ -302,7 +302,7 @@ const crearPokemon = (e) => {
       close: true,
       className: "info",
       style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        background: "linear-gradient(to right, red, #96c93d)",
         fontWeight: "900",
       },
     }).showToast();
@@ -389,7 +389,7 @@ const tusCreaciones = () => {
       close: true,
       className: "info",
       style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        background: "linear-gradient(to right, red, #96c93d)",
         fontWeight: "900",
       },
     }).showToast();
@@ -469,6 +469,7 @@ const editarPokeAmigo = (id) => {
         class="form-control"
         id="nombre${editar.nombre}"
         value="${editar.nombre}"
+        placeholder="Nombre"
       />
     </div>
     <div class="form-group mb-3">
@@ -477,6 +478,7 @@ const editarPokeAmigo = (id) => {
         class="form-control"
         id="tipo${editar.tipo}" 
         value="${editar.tipo}"
+        placeholder="Tipo"
       />
     </div>
     <div class="input-group mb-3">
@@ -485,8 +487,8 @@ const editarPokeAmigo = (id) => {
         class="form-control"
         id="imagen${editar.imagen}" 
         value="${editar.imagen}"
+        placeholder="Imagen"
       />
-      
     </div>
       <div class="form-group mb-3">
       <button
@@ -521,7 +523,7 @@ const editarPokeAmigo = (id) => {
       close: true,
       className: "info",
       style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        background: "linear-gradient(to right, red, #96c93d)",
         fontWeight: "900",
       },
     }).showToast();
@@ -537,8 +539,6 @@ const editarPokeAmigo = (id) => {
     tusCreaciones();
   }
 
-
-   
   });
 };
 
