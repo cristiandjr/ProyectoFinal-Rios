@@ -171,7 +171,7 @@ const vaciarMochila = () => {
     });
   } else {
     Toastify({
-      text: "Tu mochila esta vacia",
+      text: "Tu mochila ya esta vacia",
       duration: 3000,
       close: true,
       className: "info",
@@ -263,7 +263,7 @@ api(url);
 
 /**
  * @creadorDePokemon; en esta seccion de scripts se resuelve la logica de crear
- * un pokemon personalizado
+ * un pokeamigo personalizado
  **/
 
 // traigo las etiquetas
@@ -274,7 +274,7 @@ const imagenCreador = document.getElementById("imagen");
 
 // class
 class PokemonCreador {
-  constructor(nombre, tipo, imagen) {
+  constructor(nombre, tipo, imagen = './img/imagen_predefinida.jpg') {
     this.id = parseInt(`${Math.floor(Math.random() * 1000) + 1}${Date.now()}`);
     this.nombre = nombre;
     this.tipo = tipo;
@@ -322,7 +322,7 @@ const crearPokemon = (e) => {
     // render
     tusCreaciones();
 
-    // cierro modal automaticamente
+    // cierro modal automaticamente una vez creado el pokeamigo
     const creadorModal = document.getElementById("creadorModal");
     const modal = bootstrap.Modal.getInstance(creadorModal);
     modal.hide();
@@ -333,17 +333,30 @@ const crearPokemon = (e) => {
 const listarPokeAmigos = document.getElementById("listarPokeAmigos");
 
 const tusCreaciones = () => {
+
   if (pokemonCreado.length <= 6) {
     listarPokeAmigos.innerHTML = "";
 
     pokemonCreado.forEach((pokemon) => {
       const div = document.createElement("div");
 
-      //'./img/imagen_predefinida.jpg'
+
+      // valido que la img que no venga vacia, si no le doy x default una (mejorar logica)
+      let img;
+      if (pokemon?.imagen) {
+        img = pokemon.imagen.includes('https') ? pokemon.imagen : './img/imagen_predefinida.jpg';
+      } else {
+        img = './img/imagen_predefinida.jpg';
+      }
+
+      // limpio txt
+      pokemon.nombre.replace(/[^\w\s]/gi, '');
+      pokemon.tipo.replace(/[^\w\s]/gi, '');
+      img.replace(/[^\w\s]/gi, '');
 
       div.innerHTML += `
         <div class="mb-3">
-          <img src="${pokemon?.imagen}" alt="${pokemon.nombre}" style="width: 5rem; height: 5rem;" /> | 
+          <img src="${img}" alt="${pokemon.nombre}" style="width: 5rem; height: 5rem;" /> | 
           <strong class="text-muted">${pokemon.tipo}</strong> | 
           <strong class="text-muted">${pokemon.nombre}</strong>
           <button data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#editarModal" id="editarPokeAmigoBtn${pokemon.id}">Editar</button>
@@ -383,7 +396,7 @@ const tusCreaciones = () => {
   }
 };
 
-// cantidad creacion
+// limitar cantidad de creacion
 const limiteCreacion = () => {
   const limiteCreacionMochila = document.getElementById(
     "limiteCreacionMochila"
@@ -395,17 +408,53 @@ const limiteCreacion = () => {
     : (limiteCreacionMochila.innerHTML = `<span style='color:red;'>(${contador})</span>`);
 };
 
-// libierar pokemon amigo
+// libierar pokeamigo
 const liberarPokeAmigo = (id) => {
   let liberar = pokemonCreado.filter((pokemon) => pokemon.id !== id);
   pokemonCreado = liberar;
 
   //render
   tusCreaciones();
+  verificarCreadorVacio()
+
+};
+
+// vaciar creador
+const vaciarCreadorButton = document.getElementById("vaciarCreadorButton");
+vaciarCreadorButton.addEventListener("click", () => vaciarCreador());
+
+const vaciarCreador = () => {
+  if (pokemonCreado.length >= 1) {
+    Swal.fire({
+      title: "¿Realmente quieres liberar a todas tus creaciones?",
+      icon: "warning",
+      confirmButtonText: "Si",
+      showCancelButton: true,
+    }).then((response) => {
+      if (response.isConfirmed) {
+        pokemonCreado = [];
+        limiteCreacion()
+        verificarCreadorVacio()
+      }
+    });
+  } else {
+    Toastify({
+      text: "Tu creador ya esta vacio",
+      duration: 3000,
+      close: true,
+      className: "info",
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        fontWeight: "900",
+      },
+    }).showToast();
+  }
 };
 
 // editar pokemon amigo
 const editarPokeAmigo = (id) => {
+
+  // busco por ID
   const editar = pokemonCreado.find((pokemon) => pokemon.id === id);
 
   const formularioEditor = document.getElementById("formularioEditor");
@@ -452,27 +501,59 @@ const editarPokeAmigo = (id) => {
   `;
   formularioEditor.appendChild(divModal);
 
+  // obtenido ese id, edito el resultado correspondiente
   const nombreEdit = document.getElementById(`nombre${editar.nombre}`);
   const tipoEdit = document.getElementById(`tipo${editar.tipo}`);
   const imagenEdit = document.getElementById(`imagen${editar.imagen}`);
 
-  formularioEditor.addEventListener("click", () => {
+
+  formularioEditor.addEventListener("click", (e) => {
+
+    // valido campos vacios
+  if (
+    nombreEdit.value == "" && nombreEdit.value.length == 0 ||
+    tipoEdit.value == "" && tipoEdit.value.length == 0 ||
+    imagenEdit.value == "" && imagenEdit.value.length == 0 
+  ) {
+    Toastify({
+      text: "Debe rellenar todos los campos",
+      duration: 3000,
+      close: true,
+      className: "info",
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        fontWeight: "900",
+      },
+    }).showToast();
+  } else {
     const index = pokemonCreado.find((pokemon) => pokemon.id === id);
 
-    // actualizar las propiedades del objeto
+    // actualizo las props del obj
     index.nombre = nombreEdit.value;
     index.tipo = tipoEdit.value;
     index.imagen = imagenEdit.value;
 
     // render
     tusCreaciones();
+  }
+
+
+   
   });
+};
+
+const verificarCreadorVacio = () => {
+  if (pokemonCreado.length === 0) {
+    listarPokeAmigos.innerHTML =
+      "!Creador vacío. Ve al creador. Recuerda que puedes crear 6 PokeAmigos!";
+  }
 };
 
 // renders
 const inicializador = () => {
   tusCreaciones();
   verificarMochilaVacia();
+  verificarCreadorVacio()
 };
 
 inicializador();

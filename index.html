@@ -16,8 +16,7 @@
       type="text/css"
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
-
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <header>
@@ -57,7 +56,10 @@
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#tuCreacionModal"
-                  >Tus creaciones <span style="color: green" id="limiteCreacionMochila">(0)</span></a
+                  >Tus creaciones
+                  <span style="color: green" id="limiteCreacionMochila"
+                    >(0)</span
+                  ></a
                 >
               </li>
               <li class="nav-item">
@@ -87,7 +89,6 @@
         </div>
       </nav>
     </header>
-
     <main class="container-fluid">
       <section>
         <div
@@ -95,7 +96,6 @@
           id="contenedorPokemon"
         ></div>
       </section>
-
       <!-- Paginacion -->
       <section>
         <div aria-label="Page navigation example">
@@ -115,12 +115,10 @@
         </div>
       </section>
     </main>
-
     <footer class="bg-light container-fluid text-center mt-5 p-4">
       <p style="display: inline">Este es el contenido del footer.</p>
     </footer>
-
-    <!-- Modal de mochila-->
+    <!-- modals -->
     <div
       class="modal fade"
       id="exampleModal"
@@ -159,76 +157,72 @@
         </div>
       </div>
     </div>
-
-    <!-- Modal de creador-->
     <div
-    class="modal fade"
-    id="creadorModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">
-            ⚙ Crea tu Pokeamigo
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body text-center" id="creadorPokemon">
-          <form id="formularioCreador">
-            <div class="form-group mb-3">
-              <input
-                type="text"
-                class="form-control"
-                id="nombre"
-                placeholder="Nombre"
-              />
-            </div>
-            <div class="form-group mb-3">
-              <input
-                type="text"
-                class="form-control"
-                id="tipo"
-                placeholder="Tipo"
-              />
-            </div>
-            <div class="input-group mb-3">
-              <input
-                type="text"
-                class="form-control"
-                id="imagen"
-                placeholder="Imagen"
-              />
-              <span class="input-group-text">
-                <a
-                  href="javascript:void(0)"
-                  class="w-100"
-                  data-bs-toggle="popover"
-                  data-bs-content="Para subir la imagen de tu PokeCreacion tienes que hacerlo mediante un servidor externo, te puedo recomendar servidor.com, una vez alli dentro tienes que seguir estos pasos: 1 - escoge tu imagen 2 - subela haciendo click en donde dice 'subir imagen' 3 - dale tiempo de expiracion (se elimina del servidor tu imagen segun el tiempo que le indiques) 4 - copia el enlace de '' 5 - pega tu enlace en aqui"
-                  data-bs-placement="right"
-                  >❓</a
-                >
-              </span>
-            </div>
-            <div class="form-group mb-3">
-              <button type="submit" class="btn btn-primary">
-                Crear
-              </button>
-            </div>
-          </form>
+      class="modal fade"
+      id="creadorModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              ⚙ Crea tu Pokeamigo
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-center" id="creadorPokemon">
+            <form id="formularioCreador">
+              <div class="form-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombre"
+                  placeholder="Nombre"
+                />
+              </div>
+              <div class="form-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="tipo"
+                  placeholder="Tipo"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="imagen"
+                  placeholder="Imagen"
+                />
+                <span class="input-group-text">
+                  <a
+                    href="javascript:void(0)"
+                    class="w-100"
+                    data-bs-toggle="popover"
+                    data-bs-content="Para subir la imagen de tu PokeCreacion tienes que hacerlo mediante un servidor externo, te puedo recomendar servidor.com, una vez alli dentro tienes que seguir estos pasos: 1 - escoge tu imagen 2 - subela haciendo click en donde dice 'subir imagen' 3 - dale tiempo de expiracion (se elimina del servidor tu imagen segun el tiempo que le indiques) 4 - copia el enlace de '' 5 - pega tu enlace en aqui"
+                    data-bs-placement="right"
+                    >❓</a
+                  >
+                </span>
+              </div>
+              <div class="form-group mb-3">
+                <button type="submit" class="btn btn-primary w-100">
+                  Crear
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-    <!-- Modal de pokemon creados-->
     <div
       class="modal fade"
       id="tuCreacionModal"
@@ -262,38 +256,23 @@
               type="button"
               class="btn btn-danger w-100"
               data-bs-dismiss="modal"
+              id="vaciarCreadorButton"
             >
-              Vaciar mochila (mostrar alert con swalt)
+              Vaciar creador
             </button>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Modal editar creaciones -->
-    <div
-      class="modal fade"
-      id="editarModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              ⚙ Edita tu Pokeamigo
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">🛠 Edita tu Pokeamigo</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body text-center" id="editorPokemon">
-            <form id="formularioEditor">
-            </form>
+            <form id="formularioEditor"></form>
           </div>
         </div>
       </div>
@@ -319,6 +298,6 @@
       });
     </script>
     <!-- mi script -->
-    <script src="main.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
