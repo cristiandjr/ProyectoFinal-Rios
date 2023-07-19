@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* saco fondo blanco de las img conumidas de la api */
+img {
+  filter: brightness(1) invert(0);
+  mix-blend-mode: multiply;
+}
