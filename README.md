@@ -2,7 +2,7 @@
 
 Live: https://delicate-griffin-2651ee.netlify.app/
 
-Repo: 
+Repo: https://github.com/cristiandjr/ProyectoFinal-Rios
 
 # GIF
 ![](RedmeCoderMmerce.gif)
