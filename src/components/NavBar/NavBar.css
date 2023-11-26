@@ -1,0 +1,29 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}
+header img {
+    height: 100px;
+}
+
+li {
+    display: inline-block;
+    margin: 10px;
+    cursor: pointer;
+}
+
+li a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 800;
+    color: black;
+    transition: all .3s ease-out;
+}
+li a:hover {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 800;
+    color: orange;
+}

@@ -1,26 +1,30 @@
-# ProyectoFinal-Rios
+# Tienda CoderMmerce
+Este es un proyecto de ecommerce básico que se utiliza para el curso de React. La aplicación permite ver una lista de productos y realizar compras en línea. Los productos y las órdenes de compra se almacenan en Firebase.
 
-Live: https://delicate-griffin-2651ee.netlify.app/
+- Live: https://codermmerce.netlify.app/
+- Repo: https://github.com/cristiandjr/ProyectoFinal-Rios
 
-Repo: https://github.com/cristiandjr/ProyectoFinal-Rios
+## Tecnologías utilizadas
+- Vite
+- React
+- React Router
+- Firebase
 
-# GIF
-![](RedmeCoderMmerce.gif)
+## Funcionalidades
+- Ver una lista de productos disponibles
+- Agregar productos al carrito de compras
+- Ver el carrito de compras
+- Realizar una orden de compra
 
+## Instalación
 
-# Se debe entregar.
-### Rutas a configurar
-- ‘/’ navega a <ItemListContainer />
-- ‘/category/:id’  <ItemListContainer />
-- ‘/item/:id’ navega a <ItemDetailContainer />
+### Para instalar y ejecutar la aplicación en tu máquina local, sigue los siguientes pasos:
 
-### Links a configurar
-- Clickear en el brand debe navegar a ‘/’
-- Clickear un Item.js debe navegar a /item/:id
-- Clickear en una categoría del navbar debe navegar a /category/:categoryId 
+1. Clona el repositorio a tu máquina local.
+2. Abre una terminal en el directorio del proyecto.
+3. Ejecuta el comando npm install para instalar las dependencias.
+4. Ejecuta el comando npm run dev para iniciar la aplicación.
+5. Abre tu navegador y navega a http://localhost:5173 para ver la aplicación en acción.
 
-# Instalación:
-
-1) Clona el repositorio en tu escritorio o en el directorio que desees utilizando el siguiente comando: ```git clone https://github.com/cristiandjr/PreEntrega2-Rios.git```
-2) Ingresa al directorio del repositorio clonado. Abre una terminal dentro del repositorio clonado y ejecuta el siguiente comando para instalar las dependencias: ```npm install```
-3) Para ejecutar CoderMmerce, seguir dentro del respositorio clonado con la terminal y utilizar el siguiente comando: ```npm run dev```. Siga las instruciones que marca de la terminal
+## Licencia
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE para obtener más información.

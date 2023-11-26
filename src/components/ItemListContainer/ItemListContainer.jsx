@@ -1,38 +1,38 @@
-import { useState, useEffect } from "react";
-
-// components
-import CardProducts from "../CardProducts/CardProducts";
-import Loader from "../Loader/Loader";
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import ItemList from "../ItemList/ItemList"
+import { db } from '../../services/config'
+import { collection, getDocs, query, where } from "firebase/firestore"
 
 const ItemListContainer = () => {
-  const [products, setProducts] = useState([]);
-  const [loader, setLoader] = useState(false);
+
+  const [productos, setProductos] = useState([])
+  const { idCategoria } = useParams()
 
   useEffect(() => {
-    setLoader(true);
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((json) => {
-        setProducts(json);
-        setLoader(false);
-      });
-  }, []);
+    const misProductos = idCategoria 
+      ? query(collection(db, "productos"), where("idCat", "==", idCategoria))
+      : collection(db, "productos")
+
+      getDocs(misProductos)
+        .then(res => {
+          const nuevosProductos = res.docs.map(doc => {
+            const data = doc.data()
+            return {id: doc.id, ...data}
+          })
+          setProductos(nuevosProductos)
+        })
+        .catch(error => console.log(error))
+
+    }, [idCategoria])
+
 
   return (
     <>
-      {loader ? (
-        <Loader />
-      ) : (
-        products.map((product) => {
-          return (
-            <div key={product.id}>
-              <CardProducts product={product} />
-            </div>
-          );
-        })
-      )}
+      <h2 style={{textAlign: "center", textDecoration: "underline"}}>Mis productos</h2>
+      <ItemList productos={productos} />
     </>
-  );
-};
+  )
+}
 
-export default ItemListContainer;
+export default ItemListContainer

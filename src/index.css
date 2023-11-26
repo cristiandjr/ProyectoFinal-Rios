@@ -1,9 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* saco fondo blanco de las img conumidas de la api */
-img {
-  filter: brightness(1) invert(0);
-  mix-blend-mode: multiply;
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgba(165, 165, 165, 0.596);
 }
