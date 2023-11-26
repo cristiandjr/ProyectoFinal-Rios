@@ -3,6 +3,8 @@ import { CartContext } from "../../context/CartContext"
 import { db } from "../../services/config"
 import { collection, addDoc, updateDoc, doc, getDoc } from "firebase/firestore"
 
+import './Checkout.css'
+
 const Checkout = () => {
 
   const [nombre, setNombre] = useState("")
@@ -73,21 +75,25 @@ const Checkout = () => {
   }
 
   return (
-    <div>
+    <div className="contenedorCheckout">
+
       <h2>Checkout</h2>
 
-      <form onSubmit={manejadorFormulario}>
+      <form onSubmit={manejadorFormulario} className="contenedorForm">
+
+        <div className="contenedorForm-listado">
         {
           carrito.map(producto => (
             <div key={producto.item.id}>
               <p>{producto.item.nombre} x {producto.cantidad}</p>
-              <p>{producto.item.precio}</p>
+              <p>Total: ${producto.item.precio}</p>
               <hr />
             </div>
           ))
         }
+        </div>
 
-        <div>
+        <div className="contenedorForm-inputs">
           <label htmlFor="nombre">Nombre</label>
           <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
           <br />

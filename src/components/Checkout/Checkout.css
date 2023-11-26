@@ -1,0 +1,21 @@
+.contenedorCheckout {
+  width: 100%;
+}
+.contenedorCheckout h2{
+  text-decoration: underline;
+  text-align: center;
+}
+.contenedorForm {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 300px);
+  justify-content: center;
+}
+.contenedorForm-listado hr{
+  width: 50%;
+}
+
+.contenedorForm-inputs input{
+  width: 100%;
+  margin-bottom: 10px;
+}
