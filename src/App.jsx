@@ -18,7 +18,7 @@ const App = () => {
             <Route path="/item/:idItem" element={<ItemDetailContainer />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="*" element={<h2>Error 404</h2>} />
+            <Route path="*" element={<h2 className="error">Error 404</h2>} />
           </Routes>
         </CartProvider>
       </BrowserRouter>

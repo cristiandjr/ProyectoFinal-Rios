@@ -1,6 +1,10 @@
 .contenedorItem {
+    width: 50%;
     text-align: center;
     border: 1px solid black;
+    display: flex;
+    margin: 10px auto;
+    border-radius: 10px;
 }
 .contenedorItem img {
     width: 30vw;
