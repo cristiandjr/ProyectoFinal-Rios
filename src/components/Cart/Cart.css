@@ -1,0 +1,10 @@
+.contenedorTotales {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+.contenedorTotales-total button{
+  margin-right: 20px;
+}

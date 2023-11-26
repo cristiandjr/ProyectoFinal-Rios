@@ -5,3 +5,13 @@ body {
 .error {
   text-align: center;
 }
+h2 {
+  text-align: center;
+  text-decoration: underline;
+}
+a {
+  text-decoration: none;
+}
+.center {
+  text-align: center;
+}

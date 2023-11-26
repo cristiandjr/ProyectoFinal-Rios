@@ -19,3 +19,7 @@
   width: 100%;
   margin-bottom: 10px;
 }
+
+.contenedorForm-inputs span{
+  color: rgb(155, 116, 43);
+}

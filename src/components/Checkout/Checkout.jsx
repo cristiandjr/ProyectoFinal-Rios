@@ -22,7 +22,7 @@ const Checkout = () => {
 
     if (!nombre || !apellido || !telefono || !email || !emailConfirmacion) {
       setError("Por favor completa todos los campos")
-      return 
+      return
     }
 
     if (email !== emailConfirmacion) {
@@ -49,7 +49,7 @@ const Checkout = () => {
         const productoRef = doc(db, "productos", productoOrden.id)
 
         const productoDoc = await getDoc(productoRef)
-        const stockActual = productoDoc.data().stock // data es un metodo q me permite acceder a la informacion del documento
+        const stockActual = productoDoc.data().stock
 
         await updateDoc(productoRef, {
           stock: stockActual - productoOrden.cantidad
@@ -82,15 +82,15 @@ const Checkout = () => {
       <form onSubmit={manejadorFormulario} className="contenedorForm">
 
         <div className="contenedorForm-listado">
-        {
-          carrito.map(producto => (
-            <div key={producto.item.id}>
-              <p>{producto.item.nombre} x {producto.cantidad}</p>
-              <p>Total: ${producto.item.precio}</p>
-              <hr />
-            </div>
-          ))
-        }
+          {
+            carrito.map(producto => (
+              <div key={producto.item.id}>
+                <p>{producto.item.nombre} x {producto.cantidad}</p>
+                <p>Total: ${producto.item.precio}</p>
+                <hr />
+              </div>
+            ))
+          }
         </div>
 
         <div className="contenedorForm-inputs">
@@ -119,14 +119,15 @@ const Checkout = () => {
           }
 
           <button type="submit">Confirmar compra</button>
+
+          <hr />
+          {
+            orderId && (
+              <strong>Gracias por tu compra!!! <br /> Tu numero de order es: <span>{orderId}</span></strong>
+            )
+          }
+
         </div>
-
-        {
-          orderId && (
-            <strong>Gracias por tu compra tu numero de order es: {orderId}</strong>
-          )
-
-        }
 
       </form>
 
